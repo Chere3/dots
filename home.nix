@@ -1,5 +1,7 @@
 {config, pkgs, lib, inputs, spicetify-nix, ...}:
-let unstable = import <nixos-unstable> { config = { allowUnfree = true; }; }; in { 
+let unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
+git = import ./home/git.nix { inherit lib; inherit pkgs;};
+ in { 
     nixpkgs = {
         config = {
             allowUnfree = true;
@@ -71,44 +73,17 @@ let unstable = import <nixos-unstable> { config = { allowUnfree = true; }; }; in
         name = "Adwaita";
         size = 16;
         };
-    
-    programs.neovim.defaultEditor = true;
-    
-    # Direnv
-    programs.direnv = {
-    enable = true;
-    nix-direnv.enable = true;
-    };
-    
-    # Fish
-    programs.fish.enable = true;
-    programs.ssh = {
-        enable = true;
-        extraConfig = ''
-         Host *
-          IdentityAgent ~/.1password/agent.sock
-          '';
-    };
 
-    programs.git = {
-        enable = true;
-        extraConfig = {
-            gpg = {
-                format = "ssh";
-            };
-            "gpg \"ssh\"" = {
-                program = "${lib.getExe' pkgs._1password-gui "op-ssh-sign"}";
-            };
-            commit = {
-                gpgsign = true;
-            };
-            user = {
-                email = "71246795+Chere3@users.noreply.github.com";
-                name = "Chere3";
-            };
-        };
-    }; 
+    programs = {
+        home-manager.enable = true;
+        neovim.enable = true;
+        neovim.defaultEditor = true;
+        direnv.enable = true;
+        direnv.nix-direnv.enable = true;
+        
+        ssh = import ./home/ssh.nix;
+        git = git;
+        fish = import ./home/fish.nix;
+    };
     
-    # Let Home Manager install and manage itself.
-    programs.home-manager.enable = true;
 }
