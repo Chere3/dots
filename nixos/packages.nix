@@ -1,5 +1,17 @@
-{config, pkgs, lib, ...}:
-let unstable = import <nixos-unstable> { config = { allowUnfree = true; }; }; in {
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+let
+  unstable = import <nixos-unstable> {
+    config = {
+      allowUnfree = true;
+    };
+  };
+in
+{
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
@@ -25,9 +37,9 @@ let unstable = import <nixos-unstable> { config = { allowUnfree = true; }; }; in
     bottles
     _1password-gui
     _1password
-    ];
-    
-    # Environment packages
+  ];
+
+  # Environment packages
   environment.systemPackages = with pkgs; [
     kitty
     vim
@@ -52,21 +64,26 @@ let unstable = import <nixos-unstable> { config = { allowUnfree = true; }; }; in
 
   # Font packages
   fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
+    (nerdfonts.override {
+      fonts = [
+        "FiraCode"
+        "DroidSansMono"
+      ];
+    })
   ];
-  
+
   # Configuration for electron apps
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   # 1password config
   environment.etc = {
-        "1password/custom_allowed_browsers" = {
-            text = ''
-              firefox
-            '';
-            mode = "0755";
-        };
+    "1password/custom_allowed_browsers" = {
+      text = ''
+        firefox
+      '';
+      mode = "0755";
     };
+  };
 
   programs._1password.enable = true;
   programs._1password-gui = {

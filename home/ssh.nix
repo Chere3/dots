@@ -1,7 +1,7 @@
 {
-    enable = true;
-    extraConfig = ''
+  enable = true;
+  extraConfig = ''
     Host *
     IdentityAgent ~/.1password/agent.sock
-    '';
+  '';
 }
