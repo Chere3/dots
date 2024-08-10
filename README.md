@@ -3,6 +3,10 @@
 > [!CAUTION]
 > This is my personal dotfiles, and I'm not responsible for any damage that may occur to your system. And i'm currently a newbie to NixOS, so please don't blame me if something goes wrong or if you have any suggestions for improvements.
 
+## Features
+
+- Home Manager: Home Manager is a tool for managing your home-manager configurations. It allows you to easily switch between different configurations, rollback changes, and more.
+
 ## Installation
 
 1. Install NixOS on your system.
