@@ -44,6 +44,7 @@ in
     unstable.vscode
     unstable.spotify
     unstable.davinci-resolve
+    macchina
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -86,18 +87,5 @@ in
     size = 16;
   };
 
-  programs = {
-    home-manager.enable = true;
-    neovim.enable = true;
-    neovim.defaultEditor = true;
-    direnv.enable = true;
-    direnv.nix-direnv.enable = true;
-
-    ssh = import ./ssh.nix;
-    git = import ./git.nix {
-      inherit lib;
-      inherit pkgs;
-    };
-    fish = import ./fish.nix;
-  };
+  programs = import ./cli/default.nix { inherit lib pkgs; };
 }
