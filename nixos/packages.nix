@@ -44,7 +44,6 @@ in
     kitty
     vim
     pavucontrol
-    waybar
     gsettings-desktop-schemas
     xdg-desktop-portal-hyprland
     xdg-utils
