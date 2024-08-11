@@ -18,38 +18,25 @@ in
   # User packages
   users.users.cheree.packages = with pkgs; [
     foot
-    unstable.vesktop
     dolphin
     konsole
     fuzzel
     cliphist
     wl-clipboard
-    brave
-    premid
     swww
-    spicetify-cli
     grim
     slurp
     hyprpicker
     jq
     libnotify
-    unstable.telegram-desktop
-    bottles
     _1password-gui
     _1password
   ];
 
   # Environment packages
   environment.systemPackages = with pkgs; [
-    kitty
     vim
-    pavucontrol
     gsettings-desktop-schemas
-    xdg-desktop-portal-hyprland
-    xdg-utils
-    xdg-desktop-portal
-    xdg-desktop-portal-gtk
-    btop
     dunst
     libgccjit
     playerctl

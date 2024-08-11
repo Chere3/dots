@@ -41,11 +41,19 @@ in
   # environment.
   home.packages = with pkgs; [
     obsidian
-    unstable.firefox
     librewolf
+    pavucontrol
+    kitty
+    btop
+    unstable.firefox
     unstable.vscode
     unstable.spotify
     unstable.davinci-resolve
+    unstable.telegram-desktop
+    unstable.brave
+    unstable.premid
+    unstable.bottles
+    unstable.vesktop
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
