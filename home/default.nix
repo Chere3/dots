@@ -21,7 +21,10 @@ in
     };
   };
 
-  imports = [ ./cli/default.nix ];
+  imports = [
+    ./cli/default.nix
+    ./enviroment/default.nix
+  ];
 
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
