@@ -21,6 +21,8 @@ in
     };
   };
 
+  imports = [ ./cli/default.nix ];
+
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "cheree";
@@ -44,7 +46,6 @@ in
     unstable.vscode
     unstable.spotify
     unstable.davinci-resolve
-    macchina
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -86,6 +87,4 @@ in
     name = "Adwaita";
     size = 16;
   };
-
-  programs = import ./cli/default.nix { inherit lib pkgs; };
 }

@@ -1,12 +1,14 @@
 { lib, pkgs, ... }:
 {
-  home-manager.enable = true;
-  neovim.enable = true;
-  neovim.defaultEditor = true;
-  direnv.enable = true;
-  direnv.nix-direnv.enable = true;
+  imports = [ ./macchina.nix ];
 
-  ssh = import ./ssh.nix;
-  git = import ./git.nix { inherit lib pkgs; };
-  fish = import ./fish.nix;
+  programs.home-manager.enable = true;
+  programs.neovim.enable = true;
+  programs.neovim.defaultEditor = true;
+  programs.direnv.enable = true;
+  programs.direnv.nix-direnv.enable = true;
+
+  programs.ssh = import ./ssh.nix;
+  programs.git = import ./git.nix { inherit lib pkgs; };
+  programs.fish = import ./fish.nix;
 }

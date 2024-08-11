@@ -8,5 +8,7 @@
   shellInit = ''
     function fish_greeting
     end
+
+    macchina
   '';
 }
