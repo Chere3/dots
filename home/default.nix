@@ -57,6 +57,12 @@ in
     unstable.premid
     unstable.bottles
     unstable.vesktop
+    unstable.slack
+    mplayer
+    vlc
+    alsa-utils
+    onedrive
+    imv
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
