@@ -27,8 +27,9 @@
   i18n.defaultLocale = "en_US.UTF-8";
 
   # Networking
-  networking.hostName = "nixos";
+  networking.hostName = "Calypso";
   networking.networkmanager.enable = true;
+  networking.firewall.checkReversePath = false;
 
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   # Configure network proxy if necessary
