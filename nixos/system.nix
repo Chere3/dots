@@ -46,6 +46,25 @@
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
 
+  # Virtualization
+  virtualisation.libvirtd = {
+    enable = true;
+    qemu = {
+      package = pkgs.qemu_kvm;
+      runAsRoot = true;
+      swtpm.enable = true;
+      ovmf = {
+        enable = true;
+        packages = [
+          (pkgs.OVMF.override {
+            secureBoot = true;
+            tpmSupport = true;
+          }).fd
+        ];
+      };
+    };
+  };
+
   # Graphics and GPU.
   hardware.opengl = {
     enable = true;
@@ -58,6 +77,7 @@
   users.users.cheree.extraGroups = [
     "networkmanager"
     "wheel"
+    "libvirtd"
   ];
 
   # NixOs garbage auto-collector

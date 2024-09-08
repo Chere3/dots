@@ -31,6 +31,10 @@ in
     libnotify
     _1password-gui
     _1password
+    qemu
+    qemu_kvm
+    virt-manager
+    OVMF
   ];
 
   # Environment packages
@@ -78,6 +82,8 @@ in
     # require enabling PolKit integration on some desktop environments (e.g. Plasma).
     polkitPolicyOwners = [ "cheree" ];
   };
+
+  programs.virt-manager.enable = true;
 
   programs.steam = {
     enable = true;
