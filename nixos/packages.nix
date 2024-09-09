@@ -20,7 +20,6 @@ in
     foot
     dolphin
     konsole
-    fuzzel
     cliphist
     wl-clipboard
     swww

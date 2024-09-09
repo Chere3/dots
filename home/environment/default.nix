@@ -3,5 +3,6 @@
   imports = [
     ./waybar.nix
     ./dunst.nix
+    ./fuzzel.nix
   ];
 }
