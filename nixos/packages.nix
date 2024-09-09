@@ -41,7 +41,6 @@ in
   environment.systemPackages = with pkgs; [
     vim
     gsettings-desktop-schemas
-    dunst
     libgccjit
     playerctl
     hypridle
