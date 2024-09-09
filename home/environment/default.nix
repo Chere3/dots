@@ -4,5 +4,6 @@
     ./waybar.nix
     ./dunst.nix
     ./fuzzel.nix
+    ./hyprland/default.nix
   ];
 }
