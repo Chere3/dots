@@ -80,6 +80,26 @@
     "libvirtd"
   ];
 
+  # Security 
+  security = {
+    polkit.enable = true;
+    rtkit.enable = true;
+    sudo.enable = false;
+    doas = {
+      enable = true;
+      extraRules = [
+        {
+          users = [
+            "root"
+            "cheree"
+          ];
+          keepEnv = true;
+          noPass = true;
+        }
+      ];
+    };
+  };
+
   # NixOs garbage auto-collector
   nix.gc = {
     automatic = true;
