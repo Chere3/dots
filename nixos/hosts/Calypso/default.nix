@@ -10,4 +10,6 @@
       powerOnBoot = false;
     };
   };
+
+  systemd.coredump.enable = true;
 }
