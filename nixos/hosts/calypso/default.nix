@@ -1,4 +1,9 @@
-{ config, disk, ... }:
+{
+  pkgs,
+  config,
+  disk,
+  ...
+}:
 {
   imports = [
     ./desktop.nix
@@ -12,6 +17,11 @@
     bluetooth = {
       enable = true;
       powerOnBoot = false;
+    };
+
+    opengl = {
+      enable = true;
+      extraPackages = with pkgs; [ rocmPackages.clr.icd ];
     };
   };
 
