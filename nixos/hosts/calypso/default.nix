@@ -1,6 +1,10 @@
 { config, disk, ... }:
 {
-  imports = [ ];
+  imports = [
+    ./desktop.nix
+    ./hardware-configuration.nix
+    ./services.nix
+  ];
 
   networking.hostName = "Calypso";
 
