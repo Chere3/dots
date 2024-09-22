@@ -18,22 +18,32 @@
     };
   };
 
+  # Timezone and locale
   time.timeZone = "America/Mexico_City";
   i18n.defaultLocale = "en_US.UTF-8";
 
+  fonts.packages = with pkgs; [
+    jetbrains-mono
+    (nerdfonts.override {
+      fonts = [
+        "JetBrainsMono"
+        "FiraCode"
+        "DroidSansMono"
+      ];
+    })
+  ];
+
+  # Networking and security
   networking = {
     networkmanager.enable = true;
     firewall.enable = true;
   };
 
-  fonts.packages = with pkgs; [
-    jetbrains-mono
-    (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
-  ];
-
   security = {
     polkit.enable = true;
     rtkit.enable = true;
+
+    security.pam.services.gdm.enableGnomeKeyring = true;
 
     sudo.enable = false;
     doas = {

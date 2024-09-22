@@ -29,5 +29,12 @@ in
       enable = true;
       extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
     };
+
+    steam = {
+      enable = true;
+      remotePlay.openFirewall = true;
+      dedicatedServer.openFirewall = true;
+      localNetworkGameTransfers.openFirewall = true;
+    };
   };
 }

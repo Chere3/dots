@@ -10,7 +10,17 @@
       p7zip
       home-manager
       nix-output-monitor
+      _1password
+      _1password-gui
+      vim
     ];
+    sessionVariables.NIXOS_OZONE_WL = "1";
+    etc = {
+      "1password/custom_allowed_browsers" = {
+        text = ''firefox'';
+        mode = "0755";
+      };
+    };
   };
 
   programs = {
@@ -19,6 +29,14 @@
     dconf.enable = true;
     nano.enable = false;
     less.enable = false;
+    _1password.enable = true;
+    _1password-gui = {
+      enable = true;
+      # Certain features, including CLI integration and system authentication support,
+      # require enabling PolKit integration on some desktop environments (e.g. Plasma).
+      polkitPolicyOwners = [ "cheree" ];
+      package = pkgs._1password-gui;
+    };
 
     direnv = {
       enable = true;
