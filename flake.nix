@@ -9,6 +9,9 @@
     };
     sops-nix.url = "github:mic92/sops-nix";
     disko.url = "github:nix-community/disko";
+
+    nur.url = "github:nix-community/NUR";
+    nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
   };
 
   outputs =
