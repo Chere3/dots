@@ -1,3 +1,4 @@
+{ pkgs, ... }:
 {
   services = {
 
@@ -12,6 +13,11 @@
     blueman.enable = true;
     libinput = {
       enable = true;
+    };
+
+    onedrive = {
+      enable = true;
+      package = pkgs.onedrive;
     };
 
     pipewire = {
