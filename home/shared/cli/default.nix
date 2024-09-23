@@ -18,7 +18,6 @@
         color_theme = "tokyo_storm";
       };
     };
-
     eza.enable = true;
     taskwarrior.enable = true;
 
@@ -29,6 +28,8 @@
       settings = { };
       theme = { };
     };
+
+    ssh = ./ssh.nix { inherit lib pkgs; };
 
     home.packages = with pkgs; [ ];
   };
