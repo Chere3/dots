@@ -1,10 +1,9 @@
-{
-  config,
-  pkgs,
-  lib,
-  inputs,
-  spicetify-nix,
-  ...
+{ config
+, pkgs
+, lib
+, inputs
+, spicetify-nix
+, ...
 }:
 let
   unstable = import <nixos-unstable> {
@@ -65,6 +64,7 @@ in
     imv
     dunst
     fuzzel
+    nixpkgs-fmt
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
