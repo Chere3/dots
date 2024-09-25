@@ -2,7 +2,7 @@
 let
   config = ''
     width=100
-    font=monospace:size=12
+    font=monospace:size=7
 
     [colors]
     background=1e1e2edd

@@ -1,6 +1,6 @@
 { lib, pkgs, ... }:
 {
-  imports = [ ./macchina.nix ];
+  imports = [ ./macchina.nix ./foot.nix ];
 
   programs.home-manager.enable = true;
   programs.neovim.enable = true;
