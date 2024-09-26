@@ -43,7 +43,7 @@
     polkit.enable = true;
     rtkit.enable = true;
 
-    security.pam.services.gdm.enableGnomeKeyring = true;
+    pam.services.gdm.enableGnomeKeyring = true;
 
     sudo.enable = false;
     doas = {
