@@ -1,7 +1,9 @@
 { inputs, pkgs, ... }:
 {
-  imports = [ ];
-  programs = { };
+  imports = [ ./spicetify.nix ];
+  programs = {
+    foot = import ./foot pkgs;
+  };
 
   home.packages = with pkgs; [
     librewolf
@@ -24,5 +26,4 @@
     dunst
     fuzzel
   ];
-
 }
