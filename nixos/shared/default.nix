@@ -10,11 +10,11 @@
 
   boot.loader = {
     timeout = 0;
+    efi.canTouchEfiVariables = true;
     grub = {
       enable = true;
       device = "nodev";
       efiSupport = true;
-      canTouchEfiVariables = true;
     };
   };
 
