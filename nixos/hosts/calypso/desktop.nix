@@ -1,11 +1,6 @@
 { inputs, pkgs, ... }:
-let
-  calypso = inputs.calypso.packages.${pkgs.system.default};
-in
 {
   environment = {
-    systemPackages = with pkgs; [ calypso ];
-
     loginShellInit = ''
       if [ -z "$DISPLAY" ] && [ "$(tty)" = /dev/tty1 ]; then
           exec hyprland
