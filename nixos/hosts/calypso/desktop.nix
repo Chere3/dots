@@ -18,6 +18,11 @@ in
     qemu.package = pkgs.qemu;
   };
 
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  };
+
   programs = {
     virt-manager.enable = true;
     hyprland = {
@@ -25,10 +30,7 @@ in
       xwayland.enable = true;
     };
 
-    xdg.portal = {
-      enable = true;
-      extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-    };
+
 
     steam = {
       enable = true;
