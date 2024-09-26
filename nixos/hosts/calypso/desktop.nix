@@ -13,16 +13,16 @@ in
     '';
   };
 
+  virtualisation.libvirtd = {
+    enable = true;
+    qemu.package = pkgs.qemu;
+  };
+
   programs = {
     virt-manager.enable = true;
     hyprland = {
       enable = true;
       xwayland.enable = true;
-    };
-
-    virtualisation.libvirtd = {
-      enable = true;
-      qemu.package = pkgs.qemu;
     };
 
     xdg.portal = {
