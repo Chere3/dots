@@ -48,6 +48,6 @@
       flake = "/home/cheree/dots";
     };
 
-    fish = import ./bash.nix;
+    fish = import ./fish.nix;
   };
 }
