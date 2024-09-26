@@ -28,7 +28,7 @@
     light.enable = true;
     dconf.enable = true;
     nano.enable = false;
-    less.enable = false;
+    less.enable = lib.mkDefault false;
     _1password.enable = true;
     _1password-gui = {
       enable = true;
