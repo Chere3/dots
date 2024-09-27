@@ -57,10 +57,10 @@ in
     unstable.bottles
     unstable.vesktop
     unstable.slack
+    unstable.onedrive
     mplayer
     vlc
     alsa-utils
-    onedrive
     imv
     dunst
     fuzzel
