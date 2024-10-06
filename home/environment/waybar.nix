@@ -18,11 +18,36 @@ let
             "tray",
             "memory",
             "cpu",
+            "battery",
             "custom/gpu",
             "network",
             "pulseaudio",
             "custom/power"
         ],
+        "battery": {
+        "states": {
+            "good": 95,
+            "warning": 30,
+            "critical": 20
+        },
+        "format": "{icon} {capacity}%",
+        "format-charging": " {capacity}%",
+        "format-plugged": " {capacity}%",
+        "format-alt": "{time} {icon}",
+        "format-icons": [
+            "󰂎",
+            "󰁺",
+            "󰁻",
+            "󰁼",
+            "󰁽",
+            "󰁾",
+            "󰁿",
+            "󰂀",
+            "󰂁",
+            "󰂂",
+            "󰁹"
+        ]
+    },
         "wlr/taskbar": {
             "format": "{icon}",
             "on-click": "activate",
