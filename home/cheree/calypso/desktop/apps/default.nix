@@ -8,7 +8,6 @@
   home.packages = with pkgs; [
     librewolf
     pavucontrol
-    kitty
     btop
     vscode
     spotify

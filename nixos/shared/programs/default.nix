@@ -13,6 +13,7 @@
       _1password
       _1password-gui
       vim
+      kitty
     ];
     sessionVariables.NIXOS_OZONE_WL = "1";
     etc = {
