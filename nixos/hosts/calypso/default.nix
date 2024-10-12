@@ -11,7 +11,7 @@
     ./services.nix
   ];
 
-  networking.hostName = "Calypso";
+  networking.hostName = "calypso";
 
   hardware = {
     bluetooth = {
