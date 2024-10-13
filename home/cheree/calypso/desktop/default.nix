@@ -28,7 +28,7 @@ in
   };
 
   qt.enable = true;
-  qt.platformTheme = "qtct";
+  qt.platformTheme.name = "qtct";
 
   xdg.mimeApps.enable = true;
 }
