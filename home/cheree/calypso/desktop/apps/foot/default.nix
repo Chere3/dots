@@ -1,5 +1,5 @@
 pkgs:
-let colors = imports ./colors.nix; in {
+let colors = import ./colors.nix; in {
   enable = true;
   package = pkgs.foot;
   settings = {
