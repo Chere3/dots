@@ -1,6 +1,6 @@
 { pkgs, ... }:
 {
-  imports = [ ./sysfetch ./ssh.nix ./git.nix ];
+  imports = [ ./sysfetch ./ssh.nix ];
 
   home.packages = with pkgs; [
     pipes-rs
