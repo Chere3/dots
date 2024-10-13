@@ -5,8 +5,9 @@ let inherit (inputs) spicetify-nix; in {
     enable = true;
     theme = spicePkgs.themes.catppuccin;
     enabledExtensions = with spicePkgs.extensions; [
-      "shuffle+"
-      "beautiful-lyrics"
+      lyrics
+      shuffle
+      beautiful-lyrics
     ];
   };
 }
