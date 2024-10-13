@@ -5,7 +5,6 @@ let inherit (inputs) spicetify-nix; in {
     enable = true;
     theme = spicePkgs.themes.catppuccin;
     enabledExtensions = with spicePkgs.extensions; [
-      "webnowplaying"
       "shuffle+"
       "beautiful-lyrics"
     ];
