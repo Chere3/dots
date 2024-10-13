@@ -1,6 +1,6 @@
 { inputs, pkgs, ... }:
 {
-  imports = [ ];
+  imports = [ ./environment ./desktop ./cli ];
   nixpkgs.overlays = [ inputs.nixpkgs-wayland.overlay ];
 
   home.packages = with pkgs; [
