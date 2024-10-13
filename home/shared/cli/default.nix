@@ -29,7 +29,7 @@
       theme = { };
     };
 
-    ssh = ./ssh.nix { inherit lib pkgs; };
+    ssh = import ./ssh.nix { inherit lib pkgs; };
 
     home.packages = with pkgs; [ ];
   };
