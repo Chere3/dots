@@ -246,5 +246,4 @@ in
   xdg.configFile."waybar/style.css".text = style;
 
   programs.waybar.enable = true;
-  programs.waybar.package = pkgs.waybar;
 }
