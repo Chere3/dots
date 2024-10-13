@@ -35,6 +35,6 @@
 
     jump-labels = "11111b fab387";
     urls = "89b4fa";
-  }
-    }
+  };
+}
 
