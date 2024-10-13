@@ -30,7 +30,7 @@
     };
 
     ssh = import ./ssh.nix { inherit lib pkgs; };
-
-    home.packages = with pkgs; [ ];
   };
+
+  home.packages = with pkgs; [ ];
 }
