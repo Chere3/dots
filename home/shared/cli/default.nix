@@ -19,7 +19,7 @@
       };
     };
     eza.enable = true;
-    taskwarrior3.enable = true;
+    taskwarrior.enable = true;
 
     yazi = {
       enable = true;
