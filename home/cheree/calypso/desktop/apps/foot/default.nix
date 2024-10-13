@@ -4,6 +4,5 @@ let colors = import ./colors.nix; in {
   package = pkgs.foot;
   settings = {
     colors = colors.catppuccin;
-    shell = "fish";
   };
 }
