@@ -15,20 +15,20 @@ in
       name = "Adwaita";
       size = 16;
     };
-
-    gtk = {
-      enable = true;
-      theme.name = theme.name;
-      font.name = "Ubuntu Nerd Font";
-      iconTheme = {
-        name = "WhiteSur";
-        package = pkgs.whitesur-icon-theme;
-      };
-    };
-
-    qt.enable = true;
-    qt.platformTheme = "qtct";
-
-    xdg.mimeApps.enable = true;
   };
+
+  gtk = {
+    enable = true;
+    theme.name = theme.name;
+    font.name = "Ubuntu Nerd Font";
+    iconTheme = {
+      name = "WhiteSur";
+      package = pkgs.whitesur-icon-theme;
+    };
+  };
+
+  qt.enable = true;
+  qt.platformTheme = "qtct";
+
+  xdg.mimeApps.enable = true;
 }
