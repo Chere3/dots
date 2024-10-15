@@ -4,15 +4,15 @@ let
   inherit (inputs) nixpkgs nixpkgs-stable home-manager;
 
   mkHome =
-    let
-      stable = import nixpkgs-stable { inherit system; config.allowUnfree = true; };
-    in
     { modules
     , user ? "cheree"
     , stateVersion ? "24.05"
     , system ? "x86_64-linux"
     ,
     }:
+    let
+      stable = import nixpkgs-stable { inherit system; config.allowUnfree = true; };
+    in
     home-manager.lib.homeManagerConfiguration {
       pkgs = import nixpkgs {
         inherit system;
