@@ -11,7 +11,7 @@ in
     sessionVariables.GTK_USE_PORTAL = "1";
 
     pointerCursor = {
-      package = pkgs.adwaita-icon-theme;
+      package = pkgs.gnome.adwaita-icon-theme;
       name = "Adwaita";
       size = 16;
     };
