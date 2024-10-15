@@ -23,9 +23,9 @@ let
         inherit inputs user stateVersion stable;
       };
     };
+in
+{
+  "cheree@calypso" = mkHome {
+    modules = [ ./cheree/calypso ];
   };
-  in
-  {
-  "cheree@calypso" = mkHome { modules = [ ./cheree/calypso ];
-  };
-  }
+}

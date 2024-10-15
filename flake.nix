@@ -22,9 +22,7 @@
       homeConfigurations = import ./home { inherit inputs; };
       nixosConfigurations = import ./nixos { inherit inputs; };
     };
-
   nixConfig = { };
-
 }
 
 
