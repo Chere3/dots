@@ -1,14 +1,14 @@
 { inputs, ... }:
 
 let
-  inherit (inputs) nixpkgs home-manager;
+  inherit (inputs) nixpkgs nixpkgs-stable home-manager;
 
   mkHome =
-    {
-      modules,
-      user ? "cheree",
-      stateVersion ? "24.05",
-      system ? "x86_64-linux",
+    { modules
+    , user ? "cheree"
+    , stateVersion ? "24.05"
+    , system ? "x86_64-linux"
+    ,
     }:
     home-manager.lib.homeManagerConfiguration {
       pkgs = import nixpkgs {
@@ -17,7 +17,7 @@ let
       };
       modules = [ ./shared ] ++ modules;
       extraSpecialArgs = {
-        inherit inputs user stateVersion;
+        inherit inputs user stateVersion nixpkgs-stable;
       };
     };
 in

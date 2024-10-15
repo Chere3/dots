@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, stable, ... }:
 let
   config = ''
     {
@@ -246,4 +246,5 @@ in
   xdg.configFile."waybar/style.css".text = style;
 
   programs.waybar.enable = true;
+  programs.waybar.package = stable.waybar;
 }
