@@ -10,7 +10,6 @@
     pavucontrol
     btop
     vscode
-    spotify
     telegram-desktop
     brave
     premid
