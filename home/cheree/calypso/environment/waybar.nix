@@ -1,4 +1,4 @@
-{ pkgs, stable, ... }:
+{ pkgs, nixpkgs-stable, ... }:
 let
   config = ''
     {
@@ -246,5 +246,5 @@ in
   xdg.configFile."waybar/style.css".text = style;
 
   programs.waybar.enable = true;
-  programs.waybar.package = stable.waybar;
+  programs.waybar.package = nixpkgs-stable.waybar;
 }
