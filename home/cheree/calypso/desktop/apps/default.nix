@@ -6,7 +6,6 @@
   };
 
   home.packages = with pkgs; [
-    librewolf
     pavucontrol
     btop
     vscode
@@ -19,7 +18,6 @@
     mplayer
     vlc
     alsa-utils
-    onedrive
     imv
     dunst
     fuzzel
