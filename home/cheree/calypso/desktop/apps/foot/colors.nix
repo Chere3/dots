@@ -1,8 +1,5 @@
 {
   catppuccin = {
-
-    color = "11111b";
-
     foreground = "cdd6f4";
     background = "1e1e2e";
 
