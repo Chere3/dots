@@ -48,7 +48,5 @@
       enable = true;
       flake = "/home/cheree/dots";
     };
-
-    fish = import ./fish.nix;
   };
 }
