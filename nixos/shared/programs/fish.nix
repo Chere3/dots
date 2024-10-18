@@ -15,7 +15,7 @@ in
     cp = "cp -riv";
 
     hm = "home-manager";
-    home-switch = "git add . ; nh home switch";
+    home-switch = "git add . ; nh home switch --ask";
 
     # Package Install
     git-add = "${np} install github:$1";
