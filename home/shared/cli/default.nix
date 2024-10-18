@@ -9,6 +9,8 @@
       };
     };
 
+    fish = import ./fish.nix;
+
     btop = {
       enable = true;
       settings = {
