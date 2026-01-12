@@ -1,0 +1,24 @@
+add_newline = true
+prompt_order = [
+	"username", 
+	"hostname",
+	"directory",
+	"git_branch",
+	"git_state",
+	"git_status",
+	"package",
+	"time"
+]
+
+[username]
+style_user = "bold green"
+style_root = "bold red"
+
+[directory]
+style = "cyan" 
+
+[git_branch]
+style = "bold_purple"
+
+[git_status]
+style = "red"

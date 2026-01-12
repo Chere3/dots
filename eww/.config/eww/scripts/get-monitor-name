@@ -1,0 +1,8 @@
+#!/bin/bash
+# Get monitor name by index (0-based)
+# Usage: get-monitor-name <index>
+# Example: get-monitor-name 0 (returns first monitor name)
+#          get-monitor-name 1 (returns second monitor name)
+
+index=${1:-0}
+hyprctl monitors -j | jq -r ".[${index}].name // empty"

@@ -1,0 +1,12 @@
+#!/bin/bash
+
+wifi_status=$(nmcli -t -f active,ssid,signal dev wifi | grep -m1 '^yes')
+wifi_active=$(nmcli -t -f type,state con show --active | grep -m1 '^802-11-wireless')
+
+if [ -n "$wifi_active" ] && [ -n "$wifi_status" ]; then
+    ssid=$(echo "$wifi_status" | cut -d: -f2)
+    signal=$(echo "$wifi_status" | cut -d: -f3)
+    echo "$ssid ($signal%)"
+else
+    echo "Disconnected"
+fi

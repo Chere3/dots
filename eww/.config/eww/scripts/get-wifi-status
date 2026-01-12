@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Get Wi-Fi status (on/off)
+nmcli radio wifi | grep -q "enabled" && echo "on" || echo "off"

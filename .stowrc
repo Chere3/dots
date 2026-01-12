@@ -1,0 +1,13 @@
+# GNU Stow configuration
+# This file configures how stow creates symlinks
+
+# Target directory - where symlinks will be created
+# Default is parent directory of stow directory
+# We set it explicitly to the home directory
+--target=$HOME
+
+# Restow packages that are already stowed
+--restow
+
+# Verbose output
+--verbose

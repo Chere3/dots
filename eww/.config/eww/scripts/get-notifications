@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Get recent notifications from mako
+# Returns JSON array of notifications (limited to last 5)
+
+makoctl list | jq -c '.[0:5] | map({
+    id: .id.data,
+    app_name: .app_name.data,
+    summary: .summary.data,
+    body: .body.data,
+    urgency: .urgency.data
+})' 2>/dev/null || echo '[]'

@@ -1,0 +1,3 @@
+#!/bin/bash
+# Get RAM usage in GB (used only)
+free -g | awk '/^Mem:/ {printf "%.1fGB", $3}'

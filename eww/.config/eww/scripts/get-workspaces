@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# Function to get workspaces
+get_workspaces() {
+    active_workspace=$(hyprctl -j monitors | jq '.[] | select(.focused == true) | .activeWorkspace.id')
+    workspaces=$(hyprctl -j workspaces | jq -c 'sort_by(.id) | map({id: .id, windows: .windows})')
+    
+    # Generate a list of 1-6 workspaces with status
+    jq -nc --argjson active "$active_workspace" --argjson ws "$workspaces" '
+        [range(1; 7)] | map(
+            . as $id |
+            (if ($ws | map(select(.id == $id)) | length > 0) then
+                ($ws | .[] | select(.id == $id))
+            else
+                null
+            end) as $w |
+            {
+                id: $id,
+                current: ($id == $active),
+                occupied: (if $w then ($w.windows > 0) else false end)
+            }
+        )
+    '
+}
+
+# Initial call
+get_workspaces
+
+# Listen for events
+socat -u "UNIX-CONNECT:$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock" - | while read -r line; do
+    case ${line%%>>*} in
+        workspace|focusedmon)
+            get_workspaces
+            ;;
+    esac
+done

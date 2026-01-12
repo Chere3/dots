@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Set volume to the specified percentage (0-100)
+PERCENTAGE=$1
+
+if [ -z "$PERCENTAGE" ]; then
+    echo "Usage: $0 <percentage>"
+    exit 1
+fi
+
+# Convert percentage to decimal (0.0-1.0) using awk (more reliable than bc)
+DECIMAL=$(awk "BEGIN {printf \"%.2f\", $PERCENTAGE/100}")
+wpctl set-volume @DEFAULT_AUDIO_SINK@ "$DECIMAL"

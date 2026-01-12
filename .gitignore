@@ -1,0 +1,106 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+.thumbnails
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Sensitive browser data - exclude these by default
+*.log
+*.cache
+*Cache*
+*Code Cache*
+*GPUCache*
+*DawnWebGPUCache*
+*DawnGraphiteCache*
+*Session Storage*
+*Local Storage*
+*Shared Dictionary*
+*blob_storage*
+*Backups*
+*CachedProfilesData*
+*Dictionaries*
+
+# Browser specific excludes
+*Preferences*
+*Cookies*
+*History*
+*Login Data*
+*Web Data*
+*Favicons*
+*Top Sites*
+
+# Cursor/VS Code cache
+Cursor/Cache/
+Cursor/Code Cache/
+Cursor/GPUCache/
+Cursor/logs/
+Cursor/CachedProfilesData/
+Cursor/DawnWebGPUCache/
+Cursor/DawnGraphiteCache/
+Cursor/Backups/
+Cursor/Session Storage/
+Cursor/Local Storage/
+Cursor/blob_storage/
+
+# Browser directories (typically large and contain user data)
+google-chrome/
+google-chrome-beta/
+google-chrome-unstable/
+chromium/
+BraveSoftware/
+vivaldi/
+vivaldi-snapshot/
+microsoft-edge-dev/
+Cursor/Cache/
+Cursor/Code Cache/
+Cursor/logs/
+Cursor/CachedProfilesData/
+
+# Password managers - exclude sensitive data
+1Password/
+
+# System directories
+.dconf/
+pulse/
+
+# Large application data
+net.imput.helium/
+
+# Temporary files
+*.swp
+*.swo
+*~
+.*.sw?
+.*.swo?
+
+# Backup files
+*.bak
+*.backup
+*.old
+*.orig
+
+# Lock files
+*.lock
+*.pid
+
+# Editor directories
+.vim/
+*.viminfo

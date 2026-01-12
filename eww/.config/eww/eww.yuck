@@ -1,0 +1,199 @@
+(deflisten workspaces :initial "[]" "scripts/get-workspaces")
+(deflisten window_title :initial "..." "scripts/get-window-title")
+
+(defpoll time :interval "1m" "date '+%H:%M'")
+(defpoll wifi :interval "5s" "scripts/get-wifi")
+(defpoll wifi_status :interval "3s" "scripts/get-wifi-status")
+(defpoll cpu_usage :interval "2s" "scripts/get-cpu-usage")
+(defpoll ram_usage :interval "2s" "scripts/get-ram-usage")
+(defpoll disk_usage :interval "10s" "scripts/get-disk-usage")
+(defpoll brightness :interval "2s" "scripts/get-brightness")
+(defpoll volume :interval "2s" "scripts/get-volume")
+(defpoll dnd_status :interval "3s" "scripts/get-dnd-status")
+(deflisten music :initial "{\"title\": \"\", \"artist\": \"\", \"album\": \"\", \"status\": \"Stopped\", \"artUrl\": \"\"}" "scripts/get-music")
+
+(defwindow bar0
+  :monitor 0
+  :windowtype "dock"
+  :exclusive true
+  :stacking "fg"
+  :geometry (geometry :x "0%"
+                     :y "0px"
+                     :width "100%"
+                     :height "32px"
+                     :anchor "top center")
+  :reserve (struts :side "top" :distance "32px")
+  (bar_layout))
+
+(defwindow bar1
+  :monitor 1
+  :windowtype "dock"
+  :exclusive true
+  :stacking "fg"
+  :geometry (geometry :x "0%"
+                     :y "0px"
+                     :width "100%"
+                     :height "32px"
+                     :anchor "top center")
+  :reserve (struts :side "top" :distance "32px")
+  (bar_layout))
+
+(defwidget bar_layout []
+  (box :class "bar"
+       :orientation "h"
+    (left_section)
+    (box :class "spacer" :hexpand true)
+    (system_widget)))
+
+(defwidget left_section []
+  (box :class "left-section"
+       :orientation "h"
+       :spacing 8
+    (workspaces_widget)
+    (window_title_widget)))
+
+(defwidget workspaces_widget []
+  (box :class "workspaces"
+       :orientation "h"
+       :spacing 0
+    (for workspace in workspaces
+      (button :onclick "hyprctl dispatch workspace ${workspace.id}"
+              :class "ws ${workspace.current ? 'active' : ''} ${workspace.occupied ? 'occupied' : ''}"
+        "●"))))
+
+(defwidget window_title_widget []
+  (label :class "title" :text "${window_title}" :limit-width 50))
+
+(defwidget system_widget []
+  (box :class "system"
+       :orientation "h"
+       :spacing 4
+    (label :class "cpu" :text "󰻠 ${cpu_usage}%")
+    (label :class "ram" :text "󰍛 ${ram_usage}")
+    (label :class "disk" :text "󰋼 ${disk_usage}")
+    (label :class "brightness" :text "󰃟 ${brightness}%")
+    (label :class "volume" :text "󰕾 ${volume}%")
+    (label :class "wifi" :text "󰤨 ${wifi}")
+    (label :class "time" :text "${time}")
+    (button :class "control-panel-btn" 
+            :onclick "bash scripts/toggle-control-panel"
+            "󰐓")))
+
+(defwindow control_panel0
+  :monitor 0
+  :geometry (geometry :x "7%"
+                     :y "40px"
+                     :width "400px"
+                     :anchor "top right")
+  :stacking "overlay"
+  :windowtype "dialog"
+  :exclusive false
+  (control_panel))
+
+(defwindow control_panel1
+  :monitor 1
+  :geometry (geometry :x "7%"
+                     :y "40px"
+                     :width "400px"
+                     :anchor "top right")
+  :stacking "overlay"
+  :windowtype "dialog"
+  :exclusive false
+  (control_panel))
+
+(defwidget control_panel []
+  (box :class "control-panel"
+       :orientation "v"
+       :spacing 12
+    (wifi_toggle)
+    (dnd_toggle)
+    (brightness_control)
+    (volume_control)
+    (now_playing_section)))
+
+(defwidget brightness_control []
+  (box :class "control-item"
+       :orientation "v"
+       :spacing 12
+    (box :class "control-header"
+         :orientation "h"
+         :spacing 8
+      (label :class "control-icon" :text "󰃟")
+      (label :class "control-label" :text "Display"))
+    (box :class "control-slider-wrapper"
+         :orientation "h"
+         :spacing 12
+      (scale :class "control-slider"
+             :min 0
+             :max 100
+             :value {brightness}
+             :onchange "bash scripts/set-brightness {}")
+      (label :class "control-value" :text "${brightness}%"))))
+
+(defwidget volume_control []
+  (box :class "control-item"
+       :orientation "v"
+       :spacing 12
+    (box :class "control-header"
+         :orientation "h"
+         :spacing 8
+      (label :class "control-icon" :text "󰕾")
+      (label :class "control-label" :text "Sound"))
+    (box :class "control-slider-wrapper"
+         :orientation "h"
+         :spacing 12
+      (scale :class "control-slider"
+             :min 0
+             :max 100
+             :value {volume}
+             :onchange "bash scripts/set-volume {}")
+      (label :class "control-value" :text "${volume}%"))))
+
+(defwidget wifi_toggle []
+  (box :class "connectivity-container"
+    (button :class "connectivity-toggle"
+            :onclick "bash scripts/toggle-wifi"
+      (box :class "toggle-content"
+           :orientation "v"
+           :spacing 4
+        (label :class "toggle-icon" :text "󰤨")
+        (label :class "toggle-label" :text "Wi‑Fi")
+        (label :class "toggle-status" :text "${wifi_status == 'on' ? wifi : 'Off'}")))))
+
+(defwidget dnd_toggle []
+  (box :class "connectivity-container"
+    (button :class "connectivity-toggle"
+            :onclick "bash scripts/toggle-dnd"
+      (box :class "toggle-content"
+           :orientation "v"
+           :spacing 4
+        (label :class "toggle-icon" :text {dnd_status == "on" ? "󰂛" : "󰂚"})
+        (label :class "toggle-label" :text "Do Not Disturb")))))
+
+(defwidget now_playing_section []
+  (box :class "now-playing"
+       :orientation "h"
+       :spacing 12
+       :visible {music.status != "Stopped"}
+    (image :class "music-art"
+           :path {music.artUrl != "" ? music.artUrl : ""}
+           :image-width 48
+           :image-height 48)
+    (box :class "music-info"
+         :orientation "v"
+         :spacing 4
+      (label :class "music-title" :text "${music.title}" :limit-width 30)
+      (label :class "music-artist" :text "${music.artist}" :limit-width 30))
+    (box :class "music-controls"
+         :orientation "h"
+         :spacing 8
+      (button :class "music-btn"
+              :onclick "playerctl previous"
+              "󰒮")
+      (button :class "music-btn"
+              :onclick "playerctl play-pause"
+              {music.status == "Playing" ? "󰏤" : "󰐊"})
+      (button :class "music-btn"
+              :onclick "playerctl next"
+              "󰒭"))))
+

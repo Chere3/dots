@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Get Do Not Disturb status (makoctl mode)
+makoctl mode | grep -q "do-not-disturb" && echo "on" || echo "off"

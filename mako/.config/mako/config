@@ -1,0 +1,44 @@
+# Mako notification daemon configuration
+# Catppuccin Mocha theme
+
+# Colors - Catppuccin Mocha
+background-color=#1e1e2e
+text-color=#cdd6f4
+border-color=#cba6f7
+progress-color=#89b4fa
+
+# Urgency colors
+[urgency=low]
+background-color=#1e1e2e
+text-color=#cdd6f4
+border-color=#313244
+
+[urgency=normal]
+background-color=#1e1e2e
+text-color=#cdd6f4
+border-color=#cba6f7
+
+[urgency=critical]
+background-color=#1e1e2e
+text-color=#f38ba8
+border-color=#f38ba8
+
+# Layout and appearance
+width=300
+height=100
+margin=10
+padding=15
+border-size=2
+border-radius=8
+font=JetBrainsMono Nerd Font 11
+markup=1
+default-timeout=5000
+layer=overlay
+anchor=top-right
+
+# Icons
+icons=1
+max-icon-size=64
+
+# Sound
+on-notify=exec pw-play /usr/share/sounds/freedesktop/stereo/message.oga

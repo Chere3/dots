@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Toggle control panel window on the active monitor only
+CONFIG_DIR="$HOME/.config/eww"
+
+# Get the active monitor ID
+ACTIVE_MONITOR=$(hyprctl monitors -j | jq -r '.[] | select(.focused == true) | .id')
+
+# Toggle only the panel for the active monitor
+if [ "$ACTIVE_MONITOR" = "0" ]; then
+    eww -c "$CONFIG_DIR" open control_panel0 --toggle
+    # Wait for window to appear, then position it correctly
+    sleep 0.5
+    hyprctl clients -j | jq -r '.[] | select(.class == "Eww" and (.title | contains("control_panel0"))) | .address' | head -1 | xargs -I {} hyprctl dispatch movewindowpixel exact 908 40,address:{} 2>/dev/null || true
+elif [ "$ACTIVE_MONITOR" = "1" ]; then
+    eww -c "$CONFIG_DIR" open control_panel1 --toggle
+    # Wait for window to appear, then position it correctly
+    sleep 0.5
+    hyprctl clients -j | jq -r '.[] | select(.class == "Eww" and (.title | contains("control_panel1"))) | .address' | head -1 | xargs -I {} hyprctl dispatch movewindowpixel exact 2828 40,address:{} 2>/dev/null || true
+fi

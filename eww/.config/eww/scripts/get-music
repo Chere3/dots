@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Get current music playing info
+STATUS=$(playerctl status 2>/dev/null || echo "Stopped")
+if [ "$STATUS" != "Stopped" ]; then
+    TITLE=$(playerctl metadata --format '{{title}}' 2>/dev/null || echo "")
+    ARTIST=$(playerctl metadata --format '{{artist}}' 2>/dev/null || echo "")
+    ALBUM=$(playerctl metadata --format '{{album}}' 2>/dev/null || echo "")
+    ARTURL=$(playerctl metadata --format '{{mpris:artUrl}}' 2>/dev/null || echo "")
+    echo "{\"title\": \"$TITLE\", \"artist\": \"$ARTIST\", \"album\": \"$ALBUM\", \"status\": \"$STATUS\", \"artUrl\": \"$ARTURL\"}"
+else
+    echo '{"title": "", "artist": "", "album": "", "status": "Stopped", "artUrl": ""}'
+fi
+

@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Toggle Do Not Disturb (makoctl)
+makoctl mode | grep -q "do-not-disturb" && makoctl mode -r do-not-disturb || makoctl mode -a do-not-disturb

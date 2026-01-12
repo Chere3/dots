@@ -1,0 +1,309 @@
+// Catppuccin Mocha
+$mauve: #cba6f7;
+$blue: #89b4fa;
+$green: #a6e3a1;
+$peach: #fab387;
+$text: #cdd6f4;
+$overlay1: #7f849c;
+$surface0: #313244;
+$base: #1e1e2e;
+
+* {
+  all: unset;
+  font-family: "JetBrainsMono Nerd Font", sans-serif;
+  font-size: 11px;
+}
+
+.bar {
+  background-color: #1e1e2e;
+  color: $text;
+  padding: 0 12px;
+  min-height: 32px;
+}
+
+.left-section {
+  min-width: 0;
+}
+
+.workspaces {
+  padding: 0;
+  margin: 0;
+}
+
+.workspaces .ws {
+  padding: 0px;
+  margin: 0px;
+  color: $text;
+  opacity: 0.4;
+  font-weight: 400;
+  font-size: 8px;
+  min-width: 8px;
+  min-height: 8px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.workspaces .ws:hover {
+  color: $text;
+  opacity: 0.6;
+}
+
+.workspaces .ws.occupied {
+  color: $text;
+  opacity: 0.6;
+}
+
+.workspaces .ws.active {
+  color: $text;
+  opacity: 1.0;
+  font-size: 10px;
+  font-weight: 700;
+  min-width: 10px;
+  min-height: 10px;
+}
+
+.title {
+  color: $text;
+  font-size: 11px;
+  opacity: 0.7;
+  font-weight: 400;
+  min-width: 0;
+}
+
+.system label {
+  color: $text;
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.system label.cpu {
+  color: $text;
+}
+
+.system label.ram {
+  color: $text;
+}
+
+.system label.disk {
+  color: $text;
+}
+
+.system label.brightness {
+  color: $text;
+}
+
+.system label.volume {
+  color: $text;
+}
+
+.system label.wifi {
+  color: $text;
+}
+
+.system label.time {
+  color: $text;
+  font-weight: 500;
+}
+
+.control-panel-btn {
+  color: $text;
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+
+}
+
+.control-panel-btn:hover {
+  background-color: $surface0;
+  opacity: 0.9;
+}
+
+.control-panel {
+  padding: 12px;
+  min-width: 320px;
+}
+
+.connectivity-container {
+  background-color: rgba(49, 50, 68, 0.6);
+  border: 1px solid rgba(203, 166, 247, 0.15);
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+
+.connectivity-toggle {
+  min-width: 0;
+}
+
+.toggle-content {
+  min-width: 0;
+}
+
+.toggle-icon {
+  color: $mauve;
+  font-size: 22px;
+  margin-bottom: 6px;
+}
+
+.toggle-label {
+  color: $text;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.toggle-status {
+  color: $overlay1;
+  font-size: 11px;
+  opacity: 0.85;
+}
+
+.control-item {
+  background-color: rgba(49, 50, 68, 0.6);
+  border: 1px solid rgba(203, 166, 247, 0.15);
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+
+.control-icon {
+  color: $mauve;
+  font-size: 16px;
+  min-width: 20px;
+}
+
+.control-label {
+  color: $text;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.control-slider-wrapper {
+  margin-top: 4px;
+}
+
+.control-slider {
+  min-width: 280px;
+  min-height: 6px;
+  background-color: rgba(49, 50, 68, 0.6);
+  border-radius: 3px;
+  border: none;
+  padding: 0;
+}
+
+.control-slider trough {
+  min-height: 6px;
+  border-radius: 3px;
+  background-color: rgba(49, 50, 68, 0.4);
+}
+
+.control-slider highlight {
+  min-height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, rgba(203, 166, 247, 0.8) 0%, rgba(203, 166, 247, 0.6) 100%);
+}
+
+.control-slider slider {
+  min-width: 16px;
+  min-height: 16px;
+  margin: -5px;
+  border-radius: 50%;
+  background-color: rgba(203, 166, 247, 0.95);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.control-slider slider:hover {
+  background-color: rgba(203, 166, 247, 1);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.control-value {
+  color: $text;
+  font-size: 12px;
+  font-weight: 500;
+  min-width: 40px;
+
+}
+
+.now-playing {
+  background-color: rgba(49, 50, 68, 0.6);
+  border: 1px solid rgba(203, 166, 247, 0.15);
+  border-radius: 14px;
+  padding: 14px;
+  margin-top: 0;
+}
+
+.music-art {
+  border-radius: 8px;
+  background-color: $surface0;
+}
+
+.music-info {
+  min-width: 0;
+}
+
+.music-title {
+  color: $text;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.music-artist {
+  color: $overlay1;
+  font-size: 12px;
+  opacity: 0.85;
+}
+
+
+.music-btn {
+  color: $text;
+  font-size: 18px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  min-width: 32px;
+  transition: all 0.2s ease;
+}
+
+.music-btn:hover {
+  background-color: rgba(203, 166, 247, 0.25);
+}
+
+.notification-list {
+  margin-top: 8px;
+}
+
+.notification-item {
+  background-color: $surface0;
+  border: 1px solid rgba(203, 166, 247, 0.2);
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 6px;
+  transition: all 0.2s ease;
+}
+
+.notification-item:hover {
+  background-color: rgba(203, 166, 247, 0.1);
+  border-color: rgba(203, 166, 247, 0.4);
+}
+
+.notification-app {
+  color: $mauve;
+  font-size: 11px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.notification-summary {
+  color: $text;
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.notification-body {
+  color: $overlay1;
+  font-size: 11px;
+  opacity: 0.8;
+}

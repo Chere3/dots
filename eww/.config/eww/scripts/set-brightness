@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Set brightness to the specified percentage (0-100)
+PERCENTAGE=$1
+
+if [ -z "$PERCENTAGE" ]; then
+    echo "Usage: $0 <percentage>"
+    exit 1
+fi
+
+brightnessctl set "${PERCENTAGE}%"

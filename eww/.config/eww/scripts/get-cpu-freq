@@ -1,0 +1,3 @@
+#!/bin/bash
+# Get current CPU frequency in GHz
+grep -m1 "cpu MHz" /proc/cpuinfo | awk '{printf "%.2f", $4/1000}' 2>/dev/null || echo "0.00"
