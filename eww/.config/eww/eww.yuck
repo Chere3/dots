@@ -43,7 +43,9 @@
        :orientation "h"
     (left_section)
     (box :class "spacer" :hexpand true)
-    (system_widget)))
+    (time_widget)
+    (box :class "spacer" :hexpand true)
+    (right_section)))
 
 (defwidget left_section []
   (box :class "left-section"
@@ -64,17 +66,22 @@
 (defwidget window_title_widget []
   (label :class "title" :text "${window_title}" :limit-width 50))
 
-(defwidget system_widget []
+(defwidget time_widget []
+  (label :class "time" :text "${time}"))
+
+(defwidget right_section []
   (box :class "system"
        :orientation "h"
-       :spacing 4
+       :spacing 8
     (label :class "cpu" :text "󰻠 ${cpu_usage}%")
     (label :class "ram" :text "󰍛 ${ram_usage}")
     (label :class "disk" :text "󰋼 ${disk_usage}")
     (label :class "brightness" :text "󰃟 ${brightness}%")
     (label :class "volume" :text "󰕾 ${volume}%")
-    (label :class "wifi" :text "󰤨 ${wifi}")
-    (label :class "time" :text "${time}")
+    (box :class "systray"
+         :orientation "h"
+         :spacing 4
+      (systray))
     (button :class "control-panel-btn" 
             :onclick "bash scripts/toggle-control-panel"
             "󰐓")))

@@ -73,7 +73,7 @@ $base: #1e1e2e;
 .system label {
   color: $text;
   font-size: 11px;
-  font-weight: 400;
+  font-weight: 600;
 }
 
 .system label.cpu {
@@ -100,9 +100,32 @@ $base: #1e1e2e;
   color: $text;
 }
 
-.system label.time {
+.time {
   color: $text;
+  font-size: 11px;
   font-weight: 500;
+}
+
+.systray {
+  padding: 0 4px;
+  min-height: 16px;
+}
+
+.systray > * {
+  padding: 0;
+  min-width: 12px;
+  min-height: 12px;
+}
+
+.systray image {
+  min-width: 12px;
+  min-height: 12px;
+}
+
+.systray button {
+  min-width: 12px;
+  min-height: 12px;
+  padding: 0;
 }
 
 .control-panel-btn {
