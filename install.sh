@@ -111,6 +111,143 @@ backup_config() {
     print_warning "You can restore your backup with: cp -r $BACKUP_DIR $TARGET_DIR/.config"
 }
 
+# Calculate relative path from source to target
+# This is a manual implementation that works even if realpath is not available
+calculate_relative_path() {
+    local source="$1"
+    local target="$2"
+    
+    # Normalize paths (remove trailing slashes, ensure absolute)
+    source="${source%/}"
+    target="${target%/}"
+    
+    # Convert to absolute paths if needed
+    [[ "$source" != /* ]] && source="$(cd "$(dirname "$source")" && pwd)/$(basename "$source")"
+    [[ "$target" != /* ]] && target="$(cd "$(dirname "$target")" && pwd)/$(basename "$target")"
+    
+    # Split paths into arrays (skip empty first element from leading /)
+    local source_parts=()
+    local target_parts=()
+    
+    IFS='/' read -ra temp_source <<< "$source"
+    IFS='/' read -ra temp_target <<< "$target"
+    
+    # Skip empty first element (from leading /)
+    for ((i=1; i<${#temp_source[@]}; i++)); do
+        source_parts+=("${temp_source[$i]}")
+    done
+    
+    for ((i=1; i<${#temp_target[@]}; i++)); do
+        target_parts+=("${temp_target[$i]}")
+    done
+    
+    # Find common prefix length
+    local common_len=0
+    while [[ $common_len -lt ${#source_parts[@]} && $common_len -lt ${#target_parts[@]} && "${source_parts[$common_len]}" == "${target_parts[$common_len]}" ]]; do
+        ((common_len++))
+    done
+    
+    # Build relative path
+    local result=""
+    local depth=$(( ${#source_parts[@]} - common_len ))
+    
+    # Add .. for each directory level to go up
+    for ((j=0; j<depth; j++)); do
+        result="${result}../"
+    done
+    
+    # Add remaining target path
+    for ((j=common_len; j<${#target_parts[@]}; j++)); do
+        result="${result}${target_parts[$j]}"
+        if [[ $j -lt $((${#target_parts[@]} - 1)) ]]; then
+            result="${result}/"
+        fi
+    done
+    
+    # If result is empty, it's the same directory
+    [[ -z "$result" ]] && result="."
+    
+    echo "$result"
+}
+
+# Fix absolute symlinks in a package (convert to relative)
+fix_absolute_symlinks() {
+    local pkg_dir="$1"
+    local fixed=0
+    local symlinks_found=0
+    
+    if [[ ! -d "$pkg_dir" ]]; then
+        return 0
+    fi
+    
+    # Find all symlinks in the package directory with timeout and depth limit
+    local temp_file
+    temp_file=$(mktemp)
+    
+    # Use timeout and limit depth to prevent hanging on large directory trees
+    # Limit to 10 levels deep which should be more than enough for systemd configs
+    if command_exists timeout; then
+        timeout 3 find "$pkg_dir" -maxdepth 10 -type l 2>/dev/null > "$temp_file" || true
+    else
+        find "$pkg_dir" -maxdepth 10 -type l 2>/dev/null > "$temp_file" || true
+    fi
+    
+    # Check if any symlinks were found
+    if [[ ! -s "$temp_file" ]]; then
+        rm -f "$temp_file"
+        print_info "No symlinks found in $(basename "$pkg_dir"), skipping symlink fix"
+        return 0
+    fi
+    
+    # Process each symlink
+    while IFS= read -r symlink; do
+        [[ -z "$symlink" ]] && continue
+        ((symlinks_found++))
+        
+        # Get symlink target (simple readlink, no -f to avoid hanging)
+        local target
+        target=$(readlink "$symlink" 2>/dev/null || echo "")
+        
+        # Check if it's an absolute symlink
+        if [[ "$target" == /* ]]; then
+            # Get symlink directory (use simple dirname, avoid readlink -f)
+            local symlink_dir
+            symlink_dir=$(cd "$(dirname "$symlink")" 2>/dev/null && pwd || dirname "$symlink")
+            local relative_target
+            
+            # Try realpath first (more accurate), fall back to manual calculation
+            if command_exists realpath && [[ -e "$target" ]]; then
+                relative_target=$(timeout 2 realpath --relative-to="$symlink_dir" "$target" 2>/dev/null || echo "")
+            fi
+            
+            # If realpath failed or doesn't exist, use manual calculation
+            if [[ -z "$relative_target" ]]; then
+                relative_target=$(calculate_relative_path "$symlink_dir" "$target")
+            fi
+            
+            if [[ -n "$relative_target" && "$relative_target" != "." ]]; then
+                if [[ "$DRY_RUN" == true ]]; then
+                    print_info "Would convert absolute symlink: $symlink -> $target (to relative: $relative_target)"
+                else
+                    rm -f "$symlink"
+                    ln -s "$relative_target" "$symlink" 2>/dev/null || true
+                    ((fixed++))
+                fi
+            else
+                print_warning "Could not convert absolute symlink: $symlink -> $target"
+            fi
+        fi
+    done < "$temp_file"
+    
+    rm -f "$temp_file"
+    
+    if [[ $fixed -gt 0 && "$DRY_RUN" != true ]]; then
+        print_info "Fixed $fixed absolute symlink(s) in $(basename "$pkg_dir")"
+    elif [[ $symlinks_found -eq 0 ]]; then
+        print_info "No symlinks found in $(basename "$pkg_dir")"
+    fi
+}
+
 # Get list of packages to install
 get_packages() {
     find "$DOTFILES_DIR" -maxdepth 1 -type d ! -path "$DOTFILES_DIR" ! -name ".*" ! -name "scripts" | \
@@ -151,17 +288,128 @@ install_packages() {
         
         print_info "Installing package: $pkg"
         
-        # Try normal stow first
-        if stow --target="$TARGET_DIR" "$pkg" 2>&1; then
+        # For systemd package, fix absolute symlinks first (before stow tries to process them)
+        if [[ "$pkg" == "systemd" ]]; then
+            print_info "Pre-fixing absolute symlinks in $pkg..."
+            # Run fix with strict timeout to prevent hanging
+            if command_exists timeout; then
+                timeout 5 bash -c "$(declare -f fix_absolute_symlinks calculate_relative_path command_exists print_info print_warning); fix_absolute_symlinks '$pkg'" 2>/dev/null || {
+                    print_warning "Symlink fix timed out or failed, will try stow anyway..."
+                }
+            else
+                # Without timeout, just try quickly and move on
+                fix_absolute_symlinks "$pkg" 2>/dev/null || true
+            fi
+            
+            # Remove existing conflicting files/symlinks that aren't owned by stow
+            print_info "Cleaning up existing systemd user service files..."
+            local systemd_user_dir="$TARGET_DIR/.config/systemd/user"
+            if [[ -d "$systemd_user_dir" ]]; then
+                # Remove the specific conflicting files mentioned in stow errors
+                local conflicts=(
+                    "default.target.wants/pipewire-pulse.service"
+                    "default.target.wants/pipewire.service"
+                    "pipewire-session-manager.service"
+                    "pipewire.service.wants/wireplumber.service"
+                    "sockets.target.wants/pipewire-pulse.socket"
+                    "sockets.target.wants/pipewire.socket"
+                )
+                
+                for conflict in "${conflicts[@]}"; do
+                    local conflict_path="$systemd_user_dir/$conflict"
+                    if [[ -e "$conflict_path" ]]; then
+                        rm -f "$conflict_path" 2>/dev/null || true
+                    fi
+                done
+            fi
+        fi
+        
+        # Try normal stow first (with timeout to prevent hanging)
+        local stow_output=""
+        local stow_exit=0
+        
+        if command_exists timeout; then
+            # Run stow with timeout - capture output separately to avoid hanging
+            set +e  # Don't exit on error
+            stow_output=$(timeout 10 stow --target="$TARGET_DIR" "$pkg" 2>&1)
+            stow_exit=$?
+            set -e  # Re-enable exit on error
+            
+            # Check if it was a timeout (exit code 124 or 143)
+            if [[ $stow_exit -eq 124 ]] || [[ $stow_exit -eq 143 ]]; then
+                # 124 = timeout, 143 = SIGTERM from timeout
+                print_error "Stow timed out for $pkg (likely due to symlink issues)"
+                print_warning "Skipping $pkg - you may need to fix symlinks manually"
+                failed=1
+                continue
+            fi
+        else
+            # Without timeout, just run stow normally
+            set +e  # Don't exit on error
+            stow_output=$(stow --target="$TARGET_DIR" "$pkg" 2>&1)
+            stow_exit=$?
+            set -e  # Re-enable exit on error
+        fi
+        
+        if [[ $stow_exit -eq 0 ]]; then
             print_success "Installed $pkg"
         else
-            # If it fails due to conflicts, try with --adopt to move existing files
-            print_warning "Package $pkg has conflicts, trying --adopt mode..."
-            if stow --adopt --target="$TARGET_DIR" "$pkg" 2>&1; then
-                print_success "Installed $pkg (with --adopt)"
+            # Check if the error is due to "not owned by stow" - need to remove conflicting files
+            if echo "$stow_output" | grep -q "not owned by stow"; then
+                print_warning "Package $pkg has files not owned by stow, removing them..."
+                # Extract the conflicting file paths from stow output
+                local conflicts
+                conflicts=$(echo "$stow_output" | grep "not owned by stow" | sed 's/.*: //' | sed "s|^|$TARGET_DIR/|")
+                
+                # Remove each conflicting file
+                while IFS= read -r conflict; do
+                    [[ -z "$conflict" ]] && continue
+                    if [[ -e "$conflict" ]]; then
+                        rm -f "$conflict" 2>/dev/null || true
+                    fi
+                done <<< "$conflicts"
+                
+                # Try stow again after removing conflicts
+                if stow --target="$TARGET_DIR" "$pkg" 2>&1; then
+                    print_success "Installed $pkg (after removing conflicts)"
+                else
+                    # If it still fails, try with --adopt
+                    print_warning "Still having issues, trying --adopt mode..."
+                    if stow --adopt --target="$TARGET_DIR" "$pkg" 2>&1; then
+                        print_success "Installed $pkg (with --adopt)"
+                    else
+                        print_error "Failed to install $pkg"
+                        failed=1
+                    fi
+                fi
+            # Check if the error is due to absolute symlinks
+            elif echo "$stow_output" | grep -q "absolute symlink"; then
+                print_warning "Package $pkg has absolute symlinks, fixing them..."
+                fix_absolute_symlinks "$pkg" || {
+                    print_warning "Symlink fix had issues, continuing anyway..."
+                }
+                # Try stow again after fixing
+                if stow --target="$TARGET_DIR" "$pkg" 2>&1; then
+                    print_success "Installed $pkg (after fixing symlinks)"
+                else
+                    # If it still fails, try with --adopt
+                    print_warning "Still having issues, trying --adopt mode..."
+                    if stow --adopt --target="$TARGET_DIR" "$pkg" 2>&1; then
+                        print_success "Installed $pkg (with --adopt)"
+                    else
+                        print_error "Failed to install $pkg"
+                        failed=1
+                    fi
+                fi
             else
-                print_error "Failed to install $pkg"
-                failed=1
+                # If it fails due to other conflicts, try with --adopt to move existing files
+                print_warning "Package $pkg has conflicts, trying --adopt mode..."
+                if stow --adopt --target="$TARGET_DIR" "$pkg" 2>&1; then
+                    print_success "Installed $pkg (with --adopt)"
+                else
+                    print_error "Failed to install $pkg"
+                    failed=1
+                fi
             fi
         fi
     done <<< "$packages"
