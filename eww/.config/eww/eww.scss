@@ -18,7 +18,30 @@ $base: #1e1e2e;
   background-color: #1e1e2e;
   color: $text;
   padding: 0 12px;
-  min-height: 32px;
+}
+
+.tray-container {
+  background-color: rgba(30, 30, 46, 0.97);
+  border: 1.5px solid rgba(203, 166, 247, 0.3);
+  border-radius: 12px;
+  padding: 6px 14px;
+  margin: 4px;
+}
+
+.tray-close-btn {
+  color: $overlay1;
+  font-size: 13px;
+  padding: 5px 8px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  opacity: 0.6;
+  font-weight: 500;
+}
+
+.tray-close-btn:hover {
+  background-color: rgba(203, 166, 247, 0.25);
+  color: $mauve;
+  opacity: 1;
 }
 
 .left-section {
@@ -96,6 +119,14 @@ $base: #1e1e2e;
   color: $text;
 }
 
+.system {
+  min-width: 0;
+}
+
+.spacer {
+  min-width: 0;
+}
+
 .system label.wifi {
   color: $text;
 }
@@ -107,25 +138,54 @@ $base: #1e1e2e;
 }
 
 .systray {
-  padding: 0 4px;
-  min-height: 16px;
+  padding: 4px 0;
+  min-width: 0;
 }
 
 .systray > * {
-  padding: 0;
-  min-width: 12px;
-  min-height: 12px;
+  padding: 5px 6px;
+  min-width: 22px;
+  border-radius: 7px;
+  transition: all 0.25s ease;
+  background-color: transparent;
+  margin: 0 1px;
+}
+
+.systray > *:hover {
+  background-color: rgba(203, 166, 247, 0.22);
 }
 
 .systray image {
-  min-width: 12px;
-  min-height: 12px;
+  min-width: 20px;
+  border-radius: 5px;
 }
 
 .systray button {
-  min-width: 12px;
-  min-height: 12px;
-  padding: 0;
+  min-width: 20px;
+  padding: 5px 6px;
+  border-radius: 7px;
+  transition: all 0.25s ease;
+  margin: 0 1px;
+}
+
+.systray button:hover {
+  background-color: rgba(203, 166, 247, 0.28);
+}
+
+.tray-btn {
+  color: $text;
+  font-size: 13px;
+  padding: 4px 9px;
+  border-radius: 6px;
+  transition: all 0.25s ease;
+  opacity: 0.75;
+  font-weight: 500;
+}
+
+.tray-btn:hover {
+  background-color: rgba(203, 166, 247, 0.2);
+  color: $mauve;
+  opacity: 1;
 }
 
 .control-panel-btn {

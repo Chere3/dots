@@ -38,6 +38,32 @@
   :reserve (struts :side "top" :distance "32px")
   (bar_layout))
 
+(defwindow tray0
+  :monitor 0
+  :windowtype "dock"
+  :exclusive false
+  :stacking "fg"
+  :geometry (geometry :x "0%"
+                     :y "0px"
+                     :width "300px"
+                     :height "40px"
+                     :anchor "top right")
+  :visible false
+  (tray_layout))
+
+(defwindow tray1
+  :monitor 1
+  :windowtype "dock"
+  :exclusive false
+  :stacking "fg"
+  :geometry (geometry :x "0%"
+                     :y "0px"
+                     :width "300px"
+                     :height "40px"
+                     :anchor "top right")
+  :visible false
+  (tray_layout))
+
 (defwidget bar_layout []
   (box :class "bar"
        :orientation "h"
@@ -46,6 +72,19 @@
     (time_widget)
     (box :class "spacer" :hexpand true)
     (right_section)))
+
+(defwidget tray_layout []
+  (box :class "tray-container"
+       :orientation "h"
+       :spacing 10
+    (box :class "systray"
+         :orientation "h"
+         :spacing 8
+      (systray))
+    (box :class "spacer" :hexpand true)
+    (button :class "tray-close-btn"
+            :onclick "bash scripts/toggle-tray"
+            "󰅖")))
 
 (defwidget left_section []
   (box :class "left-section"
@@ -78,10 +117,9 @@
     (label :class "disk" :text "󰋼 ${disk_usage}")
     (label :class "brightness" :text "󰃟 ${brightness}%")
     (label :class "volume" :text "󰕾 ${volume}%")
-    (box :class "systray"
-         :orientation "h"
-         :spacing 4
-      (systray))
+    (button :class "tray-btn" 
+            :onclick "bash scripts/toggle-tray"
+            "󰩟")
     (button :class "control-panel-btn" 
             :onclick "bash scripts/toggle-control-panel"
             "󰐓")))

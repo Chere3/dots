@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Toggle tray window on the active monitor only
+CONFIG_DIR="$HOME/.config/eww"
+
+# Get the active monitor ID
+ACTIVE_MONITOR=$(hyprctl monitors -j | jq -r '.[] | select(.focused == true) | .id')
+
+# Toggle only the tray for the active monitor
+if [ "$ACTIVE_MONITOR" = "0" ]; then
+    eww -c "$CONFIG_DIR" open tray0 --toggle
+elif [ "$ACTIVE_MONITOR" = "1" ]; then
+    eww -c "$CONFIG_DIR" open tray1 --toggle
+fi
