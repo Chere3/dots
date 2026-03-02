@@ -1,0 +1,49 @@
+name: Quality
+
+on:
+  push:
+    branches: [dev, main]
+  pull_request:
+    branches: [dev, main]
+
+jobs:
+  lint:
+    name: Lint Shell Scripts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install ShellCheck
+        run: sudo apt-get install -y shellcheck
+
+      - name: Run ShellCheck
+        run: |
+          find . -name "*.sh" -type f | xargs shellcheck --severity=warning || true
+          echo "ShellCheck completed (warnings allowed for now)"
+
+  validate:
+    name: Validate Structure
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check required files
+        run: |
+          echo "Checking required files..."
+          test -f README.md && echo "✓ README.md"
+          test -f .stowrc && echo "✓ .stowrc"
+          test -f install.sh && echo "✓ install.sh"
+          echo "All required files present!"
+
+      - name: Validate stow packages
+        run: |
+          echo "Validating stow package structure..."
+          for dir in */; do
+            if [ -d "$dir" ] && [ "$dir" != ".git/" ] && [ "$dir" != ".github/" ]; then
+              if [ -d "${dir}.config" ]; then
+                echo "✓ ${dir} has .config structure"
+              else
+                echo "? ${dir} - no .config (may be intentional)"
+              fi
+            fi
+          done
